@@ -3,18 +3,81 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <!-- 配置log4j --> 
- <context-param> 
- <param-name>webAppRootKey</param-name> 
- <param-value>com.hsinghsu.testSSH.webapp.root</param-value> 
- </context-param> 
- <context-param> 
- <param-name>log4jConfigLocation</param-name> 
- <param-value>classpath:log4j.properties</param-value> 
- </context-param> 
- <context-param> 
- <param-name>log4jRefreshInterval</param-name> 
- <param-value>600000</param-value> 
- </context-param>
+	<display-name>ysk-admin</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 配置session时间 -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	<!-- 预记载，在servlet启动之前加载数据,读取配置文件 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/applicationContext.xml</param-value>
+	</context-param>
+	<!--设置log4j的配置文件位置 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j/log4j.properties</param-value>
+	</context-param>
+	<!-- 配置监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<!--监听加载log4j的配置文件 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- 配置过滤器，统一request编码格式 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- SpringMVC分发器，拦截所有请求 http://jinnianshilongnian.iteye.com/blog/1602617 -->
+	<servlet>
+		<!-- 可以自定义servlet.xml配置文件的位置和名称，默认为WEB-INF目录下，名称为[<servlet-name>]-servlet.xml，如spring-servlet.xml 
+			https://www.cnblogs.com/superjt/p/3309255.html -->
+		<servlet-name>ysk-admin</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<!-- 配置SpringMVC需要加载的配置文件 spring-xxx.xml -->
+			<param-value>classpath:spring/spring-admin-web.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ysk-admin</servlet-name>
+		<!--默认匹配所有的请求 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!--错误页面配置 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/main.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/main.jsp</location>
+	</error-page>
 </web-app>
+
+
+

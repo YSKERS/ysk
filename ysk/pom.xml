@@ -40,5 +40,24 @@
   	<module>ysk-core</module>
   	<module>ysk-wechat</module>
   </modules>
-  <!--子项目模块-->
+  <!-- 测试环境 -->
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+		<!-- 正式生产环境 -->
+		<profile>
+			<id>product</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<env>product</env>
+			</properties>
+		</profile>
 </project>
