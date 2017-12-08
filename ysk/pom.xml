@@ -1,63 +1,137 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>ysk</groupId>
-  <artifactId>ysk</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+	<groupId>ysk</groupId>
+	<artifactId>ysk</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-  <name>ysk</name>
-  <url>http://maven.apache.org</url>
+	<name>ysk</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <dependencies>
-    <!-- 测试框架 -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-     <!-- 日志-->
-    <dependency>  
-       <groupId>log4j</groupId>  
-       <artifactId>log4j</artifactId>  
-       <version>1.2.17</version>  
-     </dependency>
-  </dependencies>
-  <!--子项目模块-->
-  <modules>
-  	<module>ysk-admin</module>
-  	<module>ysk-web</module>
-  	<module>ysk-common</module>
-  	<module>ysk-mq</module>
-  	<module>ysk-app</module>
-  	<module>ysk-timer</module>
-  	<module>ysk-core</module>
-  	<module>ysk-wechat</module>
-  </modules>
-  <!-- 测试环境 -->
+	<dependencies>
+		<!-- 测试框架 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 日志 -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+	</dependencies>
+	<!--子项目模块 -->
+	<modules>
+		<module>ysk-admin</module>
+		<module>ysk-web</module>
+		<module>ysk-common</module>
+		<module>ysk-mq</module>
+		<module>ysk-app</module>
+		<module>ysk-timer</module>
+		<module>ysk-core</module>
+		<module>ysk-wechat</module>
+	</modules>
+
+	<!--根据配置环境读取不同的配置文件 -->
+	<profiles>
 		<profile>
 			<id>test</id>
+			<properties>
+				<build.profile.id>test</build.profile.id>
+			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties>
-				<env>test</env>
-			</properties>
+			<build>
+				<filters>
+					<filter>config/test.properties</filter><!-- 配置文件地址 -->
+				</filters>
+				<resources>
+					<resource>
+						<filtering>true</filtering>
+						<directory>${project.basedir}/src/main/resources</directory><!-- 需要替换的文件地址 -->
+					</resource>
+				</resources>
+			</build>
 		</profile>
-		<!-- 正式生产环境 -->
+		
 		<profile>
 			<id>product</id>
+			<properties>
+				<build.profile.id>product</build.profile.id>
+			</properties>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			<properties>
-				<env>product</env>
-			</properties>
+			<build>
+				<filters>
+					<filter>config/product.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<filtering>false</filtering>
+						<directory>${project.basedir}/src/main/resources</directory>
+					</resource>
+				</resources>
+			</build>
 		</profile>
+
+	</profiles>
+
+
+
+
+ <build>
+        <finalName>ysk</finalName>
+        <plugins>
+            <!-- Maven组件配置插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <!-- 插件的配置 -->
+                <configuration>
+                    <!-- 指定程序集插件的配置文件 -->
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <!-- The configuration of maven-jar-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <!-- The configuration of the plugin -->
+                <configuration>
+                    <!-- Configuration of the archiver -->
+                    <archive>
+                        <!-- Manifest specific configuration -->
+                        <manifest>
+                            <!-- Classpath is added to the manifest of the created jar file. -->
+                            <addClasspath>false</addClasspath>
+                            <!--
+                                Configures the classpath prefix. This configuration option is
+                                used to specify that all needed libraries are found under lib/
+                                directory.
+                            -->
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <!-- Specifies the main class of the application -->
+                            <!-- <mainClass>HelloWorldApp</mainClass> -->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
