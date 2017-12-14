@@ -42,7 +42,6 @@
 	</modules>
 
 	<!--根据配置环境读取不同的配置文件 -->
-	<profiles>
 		<profile>
 			<id>test</id>
 			<properties>
@@ -53,7 +52,7 @@
 			</activation>
 			<build>
 				<filters>
-					<filter>config/test.properties</filter><!-- 配置文件地址 -->
+					<filter>${project.basedir}/config/test.properties</filter><!-- 配置文件地址 -->
 				</filters>
 				<resources>
 					<resource>
@@ -74,7 +73,7 @@
 			</activation>
 			<build>
 				<filters>
-					<filter>config/product.properties</filter>
+					<filter>${project.basedir}/config/product.properties</filter>
 				</filters>
 				<resources>
 					<resource>
@@ -84,10 +83,6 @@
 				</resources>
 			</build>
 		</profile>
-
-	</profiles>
-
-
 
 
  <build>
