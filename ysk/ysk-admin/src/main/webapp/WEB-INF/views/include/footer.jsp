@@ -49,14 +49,14 @@ ul.legals li {
 				<div class="line" >————————————————</div>
 				<ul class="legals social">
 					<li>
-						<a href="http://wpa.qq.com/msgrd?v=3&uin=1094011093&site=qq&menu=yes" title="联系我们">
+						<a href="http://wpa.qq.com/msgrd?v=3&uin=1094011093&site=qq&menu=yes" title="联系我们">QQ
 							<i class="fa fa-weibo"></i>
 						</a>
 					</li>
 					<!--TODO：加入微信-->
 					<li>
 						<a href="mailto:open@zuimeia.com" title="商务合作">
-							<i class="fa fa-envelope-o"></i>
+							<i class="fa fa-envelope-o">VX</i>
 						</a>
 					</li>
 				</ul>

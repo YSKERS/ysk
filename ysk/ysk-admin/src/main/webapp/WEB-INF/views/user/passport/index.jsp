@@ -323,12 +323,10 @@ h2 {
 		<form action="" method="post" style="position: absolute; left: 250px; top: 100px">
 			<ul>
 				<li>
-					<input name="username" type="text" class="loginuser ipt" placeholder="请输入用户名/手机号码"
-						value="admin">
+					<input name="username" type="text" class="loginuser ipt" placeholder="请输入用户名/手机号码">
 				</li>
 				<li>
-					<input name="password" type="password" id="password" class="loginpwd ipt" placeholder="请输入密码"
-						value="admin">
+					<input name="password" type="password" id="password" class="loginpwd ipt" placeholder="请输入密码">
 				</li>
 				<li>
 					<input name="" type="submit" class="loginbtn" value="登录">
@@ -375,11 +373,13 @@ h2 {
 		//影藏
 		function hide() {
 			$('.loginbox').hide();
+			$('.footer').hide();
 		}
 		$(".swiper-slide").click(function() {
 			clickcount++;
 			if (clickcount >= 2) {
 				$('.loginbox').show();
+				$('.footer').show();
 				clean();
 			}
 		})
@@ -387,7 +387,9 @@ h2 {
 			clickcount = 0;
 		}
 	</script>
+	<div style="position: absolute; left: 800px; top: 450px; display: block; z-index: 1" class="footer">
 	<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
+    </div>
 </body>
 
 </html>
